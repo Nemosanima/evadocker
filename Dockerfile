@@ -6,7 +6,7 @@ COPY . .
 
 RUN pip install -r requirements.txt --no-cache-dir
 
-RUN cd /app/src
+WORKDIR /app/src
 
 RUN python manage.py migrate
 
