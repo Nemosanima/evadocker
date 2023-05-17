@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Подтверждение удаления аккаунта
+{% endblock %}
+
+{% block content %}
+{% load user_filters %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+      <div class="card">
+
+        <div class="card-header">
+          Удалить аккаунт
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="form-group row my-3 p-3">
+              <label>
+                Password
+                <span class="required text-danger">*</span>
+              </label>
+              {{ form.password|addclass:"form-control" }}
+              <small class="form-text text-muted">
+                После удаления аккаунта все посты и группы, созданные вами будут удалены и не будут подлежать восстановлению.
+                Для подтвержения введите пароль от аккаунта и нажмите кнопку "Удалить".
+              </small>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-danger">
+                Удалить
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

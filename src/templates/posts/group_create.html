@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}
+Создать группу
+{% endblock %}
+
+{% block content %}
+{% load user_filters %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+      <div class="card">
+
+        <div class="card-header">
+          Новая группу
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="form-group row my-3 p-3">
+              <label>
+                Название группы
+                <span class="required text-danger">*</span>
+              </label>
+              {{ form.title|addclass:"form-control" }}
+            </div>
+            <div class="form-group row my-3 p-3">
+              <label>
+                Адрес группы
+                <span class="required text-danger">*</span>
+              </label>
+              {{ form.slug|addclass:"form-control" }}
+              <small class="form-text text-muted">
+                {{ form.slug.help_text }}
+              </small>
+            </div>
+            <div class="form-group row my-3 p-3">
+              <label>
+                Описание группы
+                <span class="required text-danger">*</span>
+              </label>
+              {{ form.description|addclass:"form-control" }}
+            </div>
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">
+                Создать
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

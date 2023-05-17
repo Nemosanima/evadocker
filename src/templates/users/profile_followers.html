@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+Подписчики
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2>{{ title }}</h2>
+</div>
+{% for follower in page_obj %}
+<div class="row justify-content-center">
+  <div class="col-md-4 p-5">
+    <div class="card">
+      <div class="card-header">
+        <a style="float: right" class="btn btn-primary"
+           href="{% url 'users:profile' follower.user.username %}">Профиль
+        </a>
+        <h3>{{ follower.user.username }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<div class="container">
+  {% include 'includes/paginator.html' %}
+</div>
+{% endblock %}

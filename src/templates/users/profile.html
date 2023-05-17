@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block title %}
+Страница пользователя: {{ author.username }}
+{% endblock %}
+
+{% load thumbnail %}
+{% block content %}
+<div class="container py-5">
+  <div class="row">
+
+   <!--Левая часть страницы-->
+    <div class="col-md-7">
+      {% if author.get_full_name %}
+      <h2>{{ author.get_full_name}}</h2>
+      {% else %}
+      <h2>{{ author.username }}</h2>
+      {% endif %}
+
+      <div class="row my-4">
+        <a href="{% url 'users:profile_followers' author.username %}" class="col-sm text-decoration-none text-reset">
+          <div class="card">
+            <p class="card-header">
+              Подписчики {{ subscribers.count }}
+            </p>
+          </div>
+        </a>
+
+        <a href="{% url 'users:profile_followings' author.username %}" class="col-sm text-decoration-none text-reset">
+          <div class="card">
+            <p class="card-header">
+              Подписки {{ subscriptions.count }}
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <div class="card my-4">
+        <div class="card-header">
+          <div class="card-body">
+            <p>Работа:
+              {% if author.work %}
+              {{ author.work }}
+              {% else %}
+              поле не заполнено
+              {% endif %}
+            </p>
+            <p>
+              Образование:
+              {% if author.education %}
+              {{ author.education }}
+              {% else %}
+              поле не заполнено
+              {% endif %}
+            </p>
+            <p>
+              Город:
+              {% if author.city %}
+              {{ author.city }}
+              {% else %}
+              поле не заполнено
+              {% endif %}
+            </p>
+            <p>
+              Дата рождения:
+              {% if author.birth_date %}
+              {{ author.birth_date|date:"d E Y" }}
+              {% else %}
+              поле не заполнено
+              {% endif %}
+            </p>
+            <p>
+              Всего постов: {{ number_of_posts }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <h4>О себе</h4>
+      <div class="card my-4">
+        <div class="card-header">
+          <div class="card-body">
+            <p>
+              {% if author.about_myself %}
+              {{ author.about_myself }}
+              {% else %}
+              поле не заполнено
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% if request.user.is_authenticated %}
+      <a class="btn btn-primary" href="{% url 'users:profile_posts' author.username %}">Все посты</a>
+      {% if request.user == author %}
+      <a class="btn btn-primary" href="{% url 'users:profile_edit' author.username %}">Редактировать профиль</a>
+      {% endif %}
+
+
+      {% if request.user != author %}
+
+      {% if following %}
+      <a
+              class="btn btn-secondary"
+              href="{% url 'users:profile_unfollow' author.username %}"
+              role="button"
+              style="float: right"
+      >
+        Отписаться
+      </a>
+      {% else %}
+      <a
+              class="btn btn-dark"
+              href="{% url 'users:profile_follow' author.username %}"
+              role="button"
+              style="float: right"
+      >
+        Подписаться
+      </a>
+      {% endif %}
+
+      {% endif %}
+      {% endif %}
+
+    </div>
+
+    <!--Правая часть страницы-->
+    <div class="col-md-5">
+      <h2>
+        Последние посты
+      </h2>
+      {% if page_obj.count == 0 and request.user == author %}
+      <div class="card my-4">
+        <div class="card-header">
+          <h5 class="card-title">Здесь будут ваши последние посты</h5>
+          <p class="card-text">
+            Небольшой пример текста, который может быть написан вами,
+            но вы его еще не написали, поэтому скорей идите и поделитесь с миром своими мыслями.
+          </p>
+          <a href="#" class="btn btn-primary">Детали</a>
+        </div>
+      </div>
+      {% elif page_obj.count == 0 and request.user != author %}
+      <div class="card my-4">
+        <div class="card-header">
+          <h5 class="card-title">Пусто</h5>
+          <p class="card-text">
+            Пользователь еще ничем не поделился.
+          </p>
+          <a href="#" class="btn btn-primary">Детали</a>
+        </div>
+      </div>
+      {% else %}
+      {% for post in page_obj %}
+      <div class="card my-4">
+        <div class="card-header">
+          <div style="float: right">
+            {{ post.created|date:"d E Y" }}
+          </div>
+          {% if post.group %}
+          <div>
+            Группа: <a href="{% url 'posts:group' post.group.slug %}">{{ post.group }}</a>
+          </div>
+          {% endif %}
+          <p></p>
+          {% thumbnail post.image "960x500" crop="center" upscale=True as im %}
+          <img class="card-img my-2" src="{{ im.url }}">
+          {% endthumbnail %}
+          <p>
+            {{ post.text }}
+          </p>
+          <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-primary">Детали</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+
+  </div>
+</div>
+{% endblock %}

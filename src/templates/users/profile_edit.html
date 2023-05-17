@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Изменить данные профиля
+{% endblock %}
+
+{% block content %}
+{% load user_filters %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+      <div class="card">
+
+        <div class="card-header">
+          Редактировать профиль
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="form-group row my-3 p-3">
+              <label>
+                Имя
+              </label>
+              {{ form.first_name|addclass:"form-control" }}
+            </div>
+            <div class="form-group row my-3 p-3">
+              <label>
+                Фамилия
+              </label>
+              {{ form.last_name|addclass:"form-control" }}
+            </div>
+            <div class="form-group row my-3 p-3">
+              <label>
+                Почта
+                <span class="required text-danger">*</span>
+              </label>
+              {{ form.email|addclass:"form-control" }}
+              <small class="form-text text-muted">
+                Рекомендуем заполнить поле, это поможет вам, если пароль будет утерян
+              </small>
+            </div>
+            <div class="form-group row my-3 p-3">
+              <label>
+                Образование
+              </label>
+              {{ form.education|addclass:"form-control" }}
+            </div>
+            <div class="form-group row my-3 p-3">
+              <label>
+                Работа
+              </label>
+              {{ form.work|addclass:"form-control" }}
+            </div>
+            <div class="form-group row my-3 p-3">
+              <label>
+                Дата рождения
+              </label>
+              {{ form.birth_date|addclass:"form-control" }}
+              <small class="form-text text-muted">
+                {{ form.birth_date.help_text }}
+              </small>
+            </div>
+            <div class="form-group row my-3 p-3">
+              <label>
+                Город
+              </label>
+              {{ form.city|addclass:"form-control" }}
+            </div>
+            <div class="form-group row my-3 p-3">
+              <label>
+                О себе
+              </label>
+              {{ form.about_myself|addclass:"form-control" }}
+              <small class="form-text text-muted">
+                {{ form.about_myself.help_text }}
+              </small>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">
+                Сохранить
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
