@@ -3,7 +3,15 @@
 ## Local launch instraction
 
 ### Create .env file with data for db in the root directory of the project
-
+# example
+```
+DB_ENGINE=django.db.backends.postgresql
+DB_NAME=postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+DB_HOST=db
+DB_PORT=5432
+```
 ### Running docker-compose
 ```
 docker-compose up -d
