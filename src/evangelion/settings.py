@@ -24,6 +24,8 @@ ALLOWED_HOSTS = [
 
 ]
 
+CSRF_TRUSTED_ORIGINS = ['http://localhost']
+
 # Custom model User
 AUTH_USER_MODEL = 'users.User'
 
